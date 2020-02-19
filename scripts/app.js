@@ -7,23 +7,36 @@ function main() {
   const gridStatus = []
   let newGridStatus
 
-  function possible(y, x, n) {
+  const testGrid = [
+    [9,1,0,0,0,8,0,2,0],
+    [0,8,7,3,4,0,9,0,5],
+    [2,5,0,0,9,7,0,0,0],
+    [0,7,0,0,0,5,0,3,0],
+    [1,0,2,0,3,4,0,0,8],
+    [0,0,8,2,0,9,7,0,4],
+    [0,0,0,0,5,0,3,0,0],
+    [0,0,0,0,0,3,2,0,6],
+    [3,4,0,0,2,6,8,0,1]
+  ]
 
-    if (newGridStatus[y].includes(n)) {
+  function possible(y, x, n, grid) {
+
+    if (grid[y].includes(n)) {
       return false
     }
     
     for (let i = 0; i < 9; i++) {
-      if (newGridStatus[i][x] === n) {
+      if (grid[i][x] === n) {
         return false
       }
     }
     
-    const x0 = Math.floor(x / 3) * 3
-    const y0 = Math.floor(y / 3) * 3
+    const xSquare = Math.floor(x / 3) * 3
+    const ySquare = Math.floor(y / 3) * 3
     for (let i = 0; i < 3; i++) {
+
       for (let j = 0; j < 3; j++) {
-        if (newGridStatus[y0 + i][x0 + j] === n) {
+        if (grid[ySquare + i][xSquare + j] === n) {
           return false
         } 
       }
@@ -31,9 +44,22 @@ function main() {
     return true
   }
 
-  function solve() {
-    console.log(possible(0, 0, 1))
+  function solve(grid) {
+    for (let y = 0; y < 9; y++) {
+      for (let x = 0; x < 9; x++) {
+        if (grid[y][x] === 0) {
+          for (let n = 1; n < 10; n++) {
+            if (possible(y, x, n, grid)) {
+              grid[y][x] = n
+              solve(grid)
+            }
+          }
+        }
+      }
+    }
+    return grid
   }
+  console.log(solve(testGrid))
 
   function handleChange(e) {
     gridStatus[parseInt(e.target.id)] = parseInt(e.target.value)
