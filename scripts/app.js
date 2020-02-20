@@ -6,7 +6,7 @@ function main() {
   const width = 9
   const gridStatus = []
   let newGridStatus
-  let truthCounter = 0
+  let trueCount = 0
 
   const testGrid = [
     [9, 1, 0, 0, 0, 8, 0, 2, 0],
@@ -31,6 +31,17 @@ function main() {
     [1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1]
   ]
+
+  function unfinishedGrid(grid) {
+
+    for (let i = 0; i < 9; i++) {
+      if (grid[i].includes(0)) {
+        return true
+      }
+    }
+    return false
+
+  }
 
   function possible(y, x, n) {
 
@@ -59,18 +70,6 @@ function main() {
     return true
   }
 
-  function unfinishedGrid(grid) {
-
-    for (let i = 0; i < 9; i++) {
-      if (grid[i].includes(0)) {
-        return true
-      }
-    }
-    return false
-
-  }
-
-
   function solve(grid) {
     // for (let y = 0; y < 9; y++) {
     //   for (let x = 0; x < 9; x++) {
@@ -91,12 +90,13 @@ function main() {
         if (grid[y][x] === 0) {
           for (let n = 1; n < 10; n++) {
             if (possible(y, x, n)) {
+              trueCount += 1
+              console.log(trueCount, x, y)
               grid[y][x] = n
-              solve(grid)
             }
-            if (y === 1 && x === 7) {
-              console.log(possible(y, x, n))
-              grid[y][x] = 1
+            if (trueCount >= 2 && n === 9) {
+              grid[y][x] = 0
+              trueCount = 0
             }
           }
         }
