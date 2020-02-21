@@ -2,10 +2,12 @@ function main() {
 
   const grid = document.querySelector('#grid')
   const submit = document.querySelector('#submit')
+  const solvedModal = document.querySelector('.modal')
+  const modalContent = document.querySelector('.modal-content')
   const cells = []
   const width = 9
   const gridStatus = []
-  let newGridStatus
+  let unsolvedGrid
   let trueCount = 0
 
   const testGrid = [
@@ -98,8 +100,8 @@ function main() {
     return grid
   }
 
-  console.log(solve(testGrid))
-  
+  console.log(solve(hardGrid))
+
   function handleChange(e) {
     gridStatus[parseInt(e.target.id)] = parseInt(e.target.value)
   }
@@ -110,9 +112,13 @@ function main() {
       splitArray.push(gridStatus.splice(0, width))
     }
 
-    newGridStatus = splitArray
-    solve()
+    unsolvedGrid = splitArray
+    solve(testGrid)
+    solvedModal.classList.toggle('is-active')
   }
+
+
+
 
   for (let i = 0; i < width ** 2; i++) {
 
@@ -130,6 +136,5 @@ function main() {
   submit.addEventListener('click', (e) => handleSubmit(e))
 
 }
-
 
 window.addEventListener('DOMContentLoaded', main)
