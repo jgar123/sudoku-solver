@@ -33,9 +33,7 @@ def possible(y, x, n):
     return True
 
 def solve():
-    global count
     global sudokuGrid
-    print(count)
     for y in range(0,9):
         for x in range(0,9):
             if sudokuGrid[y][x] == 0:
@@ -43,9 +41,9 @@ def solve():
                     if possible(y, x, n):
                         sudokuGrid[y][x] = n
                         solve()
-                        sudokuGrid[y][x] = 0
-                        count = count + 1
+                        sudokuGrid[y][x] = 0  
                 return
     print(sudokuGrid)
+
 
 solve()

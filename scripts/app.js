@@ -2,11 +2,11 @@ function main() {
 
   const grid = document.querySelector('#grid')
   const submit = document.querySelector('#submit')
-  const solvedModal = document.querySelector('.modal')
-  const modalContent = document.querySelector('.modal-content')
+  const result = document.querySelector('.result')
   const cells = []
   const width = 9
   const gridStatus = []
+  let count = 0
   let unsolvedGrid
   let trueCount = 0
 
@@ -35,34 +35,27 @@ function main() {
   ]
 
   function unfinishedGrid(grid) {
-
-
     for (let i = 0; i < 9; i++) {
       if (grid[i].includes(0)) {
         return true
       }
     }
     return false
-
   }
 
   function possible(y, x, n) {
-
     for (let i = 0; i < 9; i++) {
       if (testGrid[y][i] === n) {
         return false
       }
     }
-
     for (let i = 0; i < 9; i++) {
       if (testGrid[i][x] === n) {
         return false
       }
     }
-
     const xSquare = Math.floor(x / 3) * 3
     const ySquare = Math.floor(y / 3) * 3
-
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         if (testGrid[ySquare + i][xSquare + j] === n) {
@@ -73,12 +66,11 @@ function main() {
     return true
   }
 
-  let count = 0
-
-
   function solve(grid) {
     while (unfinishedGrid(grid)) {
-      console.log(count)
+      if (count > 1000000) {
+        return
+      }
       for (let y = 0; y < 9; y++) {
         for (let x = 0; x < 9; x++) {
           if (grid[y][x] === 0) {
@@ -94,13 +86,12 @@ function main() {
             }
           }
         }
-      }    
+      }
       count++
     }
     return grid
   }
 
-  console.log(solve(testGrid))
 
   function handleChange(e) {
     gridStatus[parseInt(e.target.id)] = parseInt(e.target.value)
@@ -111,26 +102,30 @@ function main() {
     while (gridStatus.length) {
       splitArray.push(gridStatus.splice(0, width))
     }
-
     unsolvedGrid = splitArray
-    solve(testGrid)
-    solvedModal.classList.toggle('is-active')
+    const solvedGrid = solve(unsolvedGrid)
+    for (let y = 0; y < solvedGrid.length; y++) {
+      for (let x = 0; x < solvedGrid.length; x++) {
+        const solvedCell = document.createElement('div')
+        solvedCell.innerHTML = solvedGrid[y][x]
+        result.appendChild(solvedCell)
+      }
+    }
+    grid.style.display = 'none'
+    result.style.display = 'flex'
   }
 
 
 
 
   for (let i = 0; i < width ** 2; i++) {
-
     gridStatus.push(0)
-
     const cell = document.createElement('input')
     cell.addEventListener('change', (e) => handleChange(e))
     cell.setAttribute('id', i)
     cell.innerHTML = i
     cells.push(cell)
     grid.appendChild(cell)
-
   }
 
   submit.addEventListener('click', (e) => handleSubmit(e))
