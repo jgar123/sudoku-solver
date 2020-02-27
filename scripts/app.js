@@ -48,7 +48,7 @@ function main() {
 
   function solve() {
     while (unfinishedGrid()) {
-      if (count > 100000) {
+      if (count > 10000) {
         recursiveSolve()
         solvedWith = 'Solved with recursion!'
         return recursiveGrid
