@@ -5,7 +5,6 @@ function main() {
   const result = document.querySelector('.result')
   const solutionMethod = document.querySelector('.solutionMethod')
   const reload = document.querySelector('.reload')
-  const cells = []
   const width = 9
   const gridStatus = []
   let count = 0
@@ -122,17 +121,26 @@ function main() {
     reload.style.display = 'block'
   }
 
-  for (let i = 0; i < width ** 2; i++) {
-    gridStatus.push(0)
-    const cell = document.createElement('input')
-    cell.addEventListener('change', (e) => handleChange(e))
-    cell.setAttribute('id', i)
-    cell.innerHTML = i
-    cells.push(cell)
-    grid.appendChild(cell)
+  function createGrid() {
+    for (let i = 0; i < width ** 2; i++) {
+      gridStatus.push(0)
+      const cell = document.createElement('input')
+      cell.addEventListener('change', (e) => handleChange(e))
+      cell.setAttribute('id', i)
+      cell.innerHTML = i
+      if (i % width === 3 || i % width === 6) {
+        cell.style.borderLeft = '3px solid black'
+      }
+      if ((i - (i % width)) / width === 3 || (i - (i % width)) / width === 6) {
+        cell.style.borderTop = '3px solid black'
+      }
+      grid.appendChild(cell)
+    }
+  
+    submit.addEventListener('click', (e) => handleSubmit(e))
   }
 
-  submit.addEventListener('click', (e) => handleSubmit(e))
+  createGrid()
 
 }
 
