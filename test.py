@@ -41,7 +41,7 @@ def solve():
                     if possible(y, x, n):
                         sudokuGrid[y][x] = n
                         solve()
-                        sudokuGrid[y][x] = 0  
+                        sudokuGrid[y][x] = 0
                 return
     print(sudokuGrid)
 
