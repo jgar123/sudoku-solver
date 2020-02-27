@@ -29,6 +29,7 @@ h1 {
 #grid input {
   height: 11.1111%;
   width: 11.1111%;
+  border-radius: 0em;
   border: 1px solid black;
   text-align: center;
   font-size: medium;
