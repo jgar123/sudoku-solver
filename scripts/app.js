@@ -110,6 +110,12 @@ function main() {
       for (let x = 0; x < solvedGrid.length; x++) {
         const solvedCell = document.createElement('div')
         solvedCell.innerHTML = solvedGrid[y][x]
+        if (x === 3 || x === 6) {
+          solvedCell.style.borderLeft = '3px solid black'
+        }
+        if (y === 3 || y === 6) {
+          solvedCell.style.borderTop = '3px solid black'
+        }
         result.appendChild(solvedCell)
       }
     }
