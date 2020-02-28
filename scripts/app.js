@@ -22,17 +22,17 @@ function main() {
     return false
   }
 
-  function possible(y, x, n) {
-    for (let i = 0; i < 9; i++) {
-      if (unsolvedGrid[y][i] === n) {
-        return false
-      }
+  function possibleMove(y, x, n) {
+    if (unsolvedGrid[y].includes(n)) {
+      return false
     }
+
     for (let i = 0; i < 9; i++) {
       if (unsolvedGrid[i][x] === n) {
         return false
       }
     }
+
     const xSquare = Math.floor(x / 3) * 3
     const ySquare = Math.floor(y / 3) * 3
     for (let i = 0; i < 3; i++) {
@@ -56,7 +56,7 @@ function main() {
         for (let x = 0; x < 9; x++) {
           if (unsolvedGrid[y][x] === 0) {
             for (let n = 1; n < 10; n++) {
-              if (possible(y, x, n)) {
+              if (possibleMove(y, x, n)) {
                 trueCount += 1
                 unsolvedGrid[y][x] = n
               }
@@ -78,7 +78,7 @@ function main() {
       for (let x = 0; x < 9; x++) {
         if (recursiveGrid[y][x] === 0) {
           for (let n = 1; n < 10; n++) {
-            if (possible(y, x, n)) {
+            if (possibleMove(y, x, n)) {
               recursiveGrid[y][x] = n
               if (recursiveSolve()) {
                 return true
