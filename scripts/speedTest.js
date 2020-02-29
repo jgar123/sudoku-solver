@@ -32,12 +32,12 @@ function unfinishedGrid() {
   return false
 }
 
-function brutePossible(y, x, n) {
-  if (pessimisticGrid[y].includes(n)) {
+function possibleMove(y, x, n, possGrid) {
+  if (possGrid[y].includes(n)) {
     return false
   }
   for (let i = 0; i < 9; i++) {
-    if (pessimisticGrid[i][x] === n) {
+    if (possGrid[i][x] === n) {
       return false
     }
   }
@@ -45,28 +45,7 @@ function brutePossible(y, x, n) {
   const ySquare = Math.floor(y / 3) * 3
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      if (pessimisticGrid[ySquare + i][xSquare + j] === n) {
-        return false
-      }
-    }
-  }
-  return true
-}
-
-function recursivePossible(y, x, n) {
-  if (optimisticGrid[y].includes(n)) {
-    return false
-  }
-  for (let i = 0; i < 9; i++) {
-    if (optimisticGrid[i][x] === n) {
-      return false
-    }
-  }
-  const xSquare = Math.floor(x / 3) * 3
-  const ySquare = Math.floor(y / 3) * 3
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      if (optimisticGrid[ySquare + i][xSquare + j] === n) {
+      if (possGrid[ySquare + i][xSquare + j] === n) {
         return false
       }
     }
@@ -80,7 +59,7 @@ function bruteSolve() {
       for (let x = 0; x < 9; x++) {
         if (pessimisticGrid[y][x] === 0) {
           for (let n = 1; n < 10; n++) {
-            if (brutePossible(y, x, n)) {
+            if (possibleMove(y, x, n, pessimisticGrid)) {
               trueCount += 1
               pessimisticGrid[y][x] = n
             }
@@ -101,7 +80,7 @@ function recursiveSolve() {
     for (let x = 0; x < 9; x++) {
       if (optimisticGrid[y][x] === 0) {
         for (let n = 1; n < 10; n++) {
-          if (recursivePossible(y, x, n)) {
+          if (possibleMove(y, x, n, optimisticGrid)) {
             optimisticGrid[y][x] = n
             if (recursiveSolve()) {
               return true

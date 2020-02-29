@@ -8,14 +8,14 @@ function main() {
   const width = 9
   const gridStatus = []
   let count = 0
-  let unsolvedGrid
+  let pessimisticGrid
   let optimisticGrid
   let trueCount = 0
   let solvedWith = 'Solved with pessimism!'
 
   function unfinishedGrid() {
     for (let i = 0; i < 9; i++) {
-      if (unsolvedGrid[i].includes(0)) {
+      if (pessimisticGrid[i].includes(0)) {
         return true
       }
     }
@@ -54,14 +54,14 @@ function main() {
       }
       for (let y = 0; y < 9; y++) {
         for (let x = 0; x < 9; x++) {
-          if (unsolvedGrid[y][x] === 0) {
+          if (pessimisticGrid[y][x] === 0) {
             for (let n = 1; n < 10; n++) {
-              if (possibleMove(y, x, n, unsolvedGrid)) {
+              if (possibleMove(y, x, n, pessimisticGrid)) {
                 trueCount += 1
-                unsolvedGrid[y][x] = n
+                pessimisticGrid[y][x] = n
               }
               if (trueCount >= 2 && n === 9) {
-                unsolvedGrid[y][x] = 0
+                pessimisticGrid[y][x] = 0
                 trueCount = 0
               }
             }
@@ -70,7 +70,7 @@ function main() {
       }
       count++
     }
-    return unsolvedGrid
+    return pessimisticGrid
   }
 
   function optimisticSolve() {
@@ -103,9 +103,9 @@ function main() {
     while (gridStatus.length) {
       splitArray.push(gridStatus.splice(0, width))
     }
-    unsolvedGrid = splitArray
+    pessimisticGrid = splitArray
     optimisticGrid = splitArray
-    const solvedGrid = pessimisticSolve(unsolvedGrid)
+    const solvedGrid = pessimisticSolve(pessimisticGrid)
     for (let y = 0; y < solvedGrid.length; y++) {
       for (let x = 0; x < solvedGrid.length; x++) {
         const solvedCell = document.createElement('div')
