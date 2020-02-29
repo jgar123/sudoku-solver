@@ -9,9 +9,9 @@ function main() {
   const gridStatus = []
   let count = 0
   let unsolvedGrid
-  let recursiveGrid
+  let optimisticGrid
   let trueCount = 0
-  let solvedWith = 'Solved with brute force!'
+  let solvedWith = 'Solved with pessimism!'
 
   function unfinishedGrid() {
     for (let i = 0; i < 9; i++) {
@@ -45,12 +45,12 @@ function main() {
     return true
   }
 
-  function solve() {
+  function pessimisticSolve() {
     while (unfinishedGrid()) {
       if (count > 10000) {
-        recursiveSolve()
-        solvedWith = 'Solved with recursion!'
-        return recursiveGrid
+        optimisticSolve()
+        solvedWith = 'Solved with optimism!'
+        return optimisticGrid
       }
       for (let y = 0; y < 9; y++) {
         for (let x = 0; x < 9; x++) {
@@ -73,17 +73,17 @@ function main() {
     return unsolvedGrid
   }
 
-  function recursiveSolve() {
+  function optimisticSolve() {
     for (let y = 0; y < 9; y++) {
       for (let x = 0; x < 9; x++) {
-        if (recursiveGrid[y][x] === 0) {
+        if (optimisticGrid[y][x] === 0) {
           for (let n = 1; n < 10; n++) {
             if (possibleMove(y, x, n)) {
-              recursiveGrid[y][x] = n
-              if (recursiveSolve()) {
+              optimisticGrid[y][x] = n
+              if (optimisticSolve()) {
                 return true
               } else {
-                recursiveGrid[y][x] = 0
+                optimisticGrid[y][x] = 0
               }
             }
           }
@@ -104,8 +104,8 @@ function main() {
       splitArray.push(gridStatus.splice(0, width))
     }
     unsolvedGrid = splitArray
-    recursiveGrid = splitArray
-    const solvedGrid = solve(unsolvedGrid)
+    optimisticGrid = splitArray
+    const solvedGrid = pessimisticSolve(unsolvedGrid)
     for (let y = 0; y < solvedGrid.length; y++) {
       for (let x = 0; x < solvedGrid.length; x++) {
         const solvedCell = document.createElement('div')
