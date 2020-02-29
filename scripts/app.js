@@ -22,13 +22,13 @@ function main() {
     return false
   }
 
-  function possibleMove(y, x, n) {
-    if (unsolvedGrid[y].includes(n)) {
+  function possibleMove(y, x, n, possGrid) {
+    if (possGrid[y].includes(n)) {
       return false
     }
 
     for (let i = 0; i < 9; i++) {
-      if (unsolvedGrid[i][x] === n) {
+      if (possGrid[i][x] === n) {
         return false
       }
     }
@@ -37,7 +37,7 @@ function main() {
     const ySquare = Math.floor(y / 3) * 3
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        if (unsolvedGrid[ySquare + i][xSquare + j] === n) {
+        if (possGrid[ySquare + i][xSquare + j] === n) {
           return false
         }
       }
@@ -56,7 +56,7 @@ function main() {
         for (let x = 0; x < 9; x++) {
           if (unsolvedGrid[y][x] === 0) {
             for (let n = 1; n < 10; n++) {
-              if (possibleMove(y, x, n)) {
+              if (possibleMove(y, x, n, unsolvedGrid)) {
                 trueCount += 1
                 unsolvedGrid[y][x] = n
               }
@@ -78,7 +78,7 @@ function main() {
       for (let x = 0; x < 9; x++) {
         if (optimisticGrid[y][x] === 0) {
           for (let n = 1; n < 10; n++) {
-            if (possibleMove(y, x, n)) {
+            if (possibleMove(y, x, n, optimisticGrid)) {
               optimisticGrid[y][x] = n
               if (optimisticSolve()) {
                 return true
