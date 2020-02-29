@@ -7,6 +7,7 @@ function main() {
   const reload = document.querySelector('.reload')
   const width = 9
   const gridStatus = []
+
   let count = 0
   let pessimisticGrid
   let optimisticGrid
@@ -23,18 +24,16 @@ function main() {
   }
 
   function possibleMove(y, x, n, possGrid) {
+    const xSquare = Math.floor(x / 3) * 3
+    const ySquare = Math.floor(y / 3) * 3
     if (possGrid[y].includes(n)) {
       return false
     }
-
     for (let i = 0; i < 9; i++) {
       if (possGrid[i][x] === n) {
         return false
       }
     }
-
-    const xSquare = Math.floor(x / 3) * 3
-    const ySquare = Math.floor(y / 3) * 3
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         if (possGrid[ySquare + i][xSquare + j] === n) {
