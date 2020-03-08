@@ -43,7 +43,58 @@ I had 2 approaches to solving the sudoku puzzle:
 
 #### **Pessimistic Approach**
 
-This approach as mentioned above, looks to find a tile in the puzzle that has 1 possible valid number.
+- This approach as mentioned above, looks to find a tile in the puzzle that has 1 possible valid number. 
+- It runs through numbers 1 to 9 in each empty tile where if a tile has more than 1 possible move, the tile is set back to empty and moves onto the next empty cell on the grid.
+- This is repeated until there are no more `0`'s on the grid. 
+```js
+  function pessimisticSolve() {
+    while (unfinishedGrid()) {
+      for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+          if (pessimisticGrid[y][x] === 0) {
+            for (let n = 1; n < 10; n++) {
+              if (possibleMove(y, x, n, pessimisticGrid)) {
+                trueCount += 1
+                pessimisticGrid[y][x] = n
+              }
+              if (trueCount >= 2 && n === 9) {
+                pessimisticGrid[y][x] = 0
+                trueCount = 0
+              }
+            }
+          }
+        }
+      }
+      count++
+    }
+    return pessimisticGrid
+  }
+```
 
 #### **Optimistic Approach**
-ddd
+
+- This approach makes use of recursion and 'guesses' sudoku board configurations until 1 configuration is correct. 
+- It traverses through the array of arrays the same way the pessimistic solution does. 
+- Firstly, it checks whether a number is `0` and whether or not a number is possible in that tile position. If it is, place the number down and call `optimisticSovle()`. The method then attempts to solve the rest of the board given tile = n. If the proceeding tiles are all have possible moves, the board has been solved. 
+```js
+  function optimisticSolve() {
+    for (let y = 0; y < 9; y++) {
+      for (let x = 0; x < 9; x++) {
+        if (optimisticGrid[y][x] === 0) {
+          for (let n = 1; n < 10; n++) {
+            if (possibleMove(y, x, n, optimisticGrid)) {
+              optimisticGrid[y][x] = n
+              if (optimisticSolve()) {
+                return true
+              } else {
+                optimisticGrid[y][x] = 0
+              }
+            }
+          }
+          return false
+        }
+      }
+    }
+    return true
+  }
+```
