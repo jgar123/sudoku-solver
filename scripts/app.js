@@ -79,14 +79,10 @@ function main() {
           for (let n = 1; n < 10; n++) {
             if (possibleMove(y, x, n, optimisticGrid)) {
               optimisticGrid[y][x] = n
-              console.log(optimisticSolve() === true)
-              console.log(`${y} - ${x} - ${optimisticGrid[y][x]}`)
               if (optimisticSolve()) {
                 return true
               } else {
                 optimisticGrid[y][x] = 0
-                console.log(`${y} - ${x} - ${optimisticGrid[y][x]}`)
-
               }
             }
           }
@@ -145,7 +141,7 @@ function main() {
       }
       grid.appendChild(cell)
     }
-  
+
     submit.addEventListener('click', (e) => handleSubmit(e))
   }
 
@@ -155,4 +151,3 @@ function main() {
 
 window.addEventListener('DOMContentLoaded', main)
 
- 
