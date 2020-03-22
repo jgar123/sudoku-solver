@@ -1,5 +1,5 @@
 function main() {
-
+ 
   const grid = document.querySelector('#grid')
   const submit = document.querySelector('#submit')
   const result = document.querySelector('.result')
