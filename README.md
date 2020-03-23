@@ -75,7 +75,7 @@ I had 2 approaches to solving the sudoku puzzle:
 
 - This approach makes use of recursion and 'guesses' sudoku board configurations until 1 configuration is correct. 
 - It traverses through the array of arrays the same way the pessimistic solution does. 
-- Firstly, it checks whether a number is `0` and whether or not a number is possible in that tile position. If it is, place the number down and call `optimisticSovle()`. The method then attempts to solve the rest of the board given tile = n. If the proceeding tiles are all have possible moves, the board has been solved. 
+- Firstly, it checks whether a number is `0` and whether or not a number is possible in that tile position. If it is, place the number down and call `optimisticSovle()` recursively. The method then attempts to solve the rest of the board given tile = n. If the proceeding tiles are all have possible moves, the board has been solved.
 ```js
   function optimisticSolve() {
     for (let y = 0; y < 9; y++) {
