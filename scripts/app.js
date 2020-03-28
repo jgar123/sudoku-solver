@@ -146,7 +146,7 @@ function main() {
   }
 
   createGrid()
-
+ 
 }
 
 window.addEventListener('DOMContentLoaded', main)
