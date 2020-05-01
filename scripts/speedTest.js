@@ -95,7 +95,7 @@ function recursiveSolve() {
   }
   return true
 }
-
+ 
 console.time('bruteSolve')
 bruteSolve()
 console.timeEnd('bruteSolve')
